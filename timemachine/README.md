@@ -6,16 +6,11 @@ The client script is an external facter script, which means it needs to
 be placed in the /etc/facter/facts.d directory for it to run properly. It
 will provide a number of facts about the computer it is running on.
 
-* timemachine_configured
-** 1 if TimeMachine is configured, 0 if not.
-* timemachine_url
-** The backup URL of the first configured TimeMachine volume.
-* timemachine_lastsnapshot
-** The date, as a unix timestamp, of the last successful backup.
-* timemachine_firstsnapshot
-** The date, as a unix timestamp, of the first successful backup.
-* timemachine_snapshotcount
-** The number of backups on the volume.
+* timemachine_configured: 1 if TimeMachine is configured, 0 if not.
+* timemachine_url: The backup URL of the first configured TimeMachine volume.
+* timemachine_lastsnapshot: The date, as a unix timestamp, of the last successful backup.
+* timemachine_firstsnapshot: The date, as a unix timestamp, of the first successful backup.
+* timemachine_snapshotcount: The number of backups on the volume.
 
 ## Server Plugin
 
