@@ -22,3 +22,9 @@ following states of machines:
 * Backed up < 7 days ago
 * Backed up between 7 and 28 days ago
 * Backed up > 28 days ago
+
+## Requirements
+
+The client script requires Facter to be installed on the clients. If you
+don't already have it installed, get it installed. Provides a lot of nice
+information.
