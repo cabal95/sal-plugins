@@ -24,29 +24,31 @@ fi
 
 # Get the most recent snapshot date.
 lastsnapshot=""
+lastsnapshotdate=""
 if [ $configured -eq 1 ]; then
   if [ "$version" = "10.6" ]; then
     lastsnapshot=0
   elif [ "$version" = "10.7" -o "$version" = "10.8" ]; then
-    lastsnapshot=`/usr/libexec/PlistBuddy -c "Print :Destinations:0:BACKUP_COMPLETED_DATE" /Library/Preferences/com.apple.TimeMachine.plist`
-    lastsnapshot=`date -j -f "%a %b %d %T %Z %Y" "$lastsnapshot" +%s 2>/dev/null`
+    lastsnapshotdate=`/usr/libexec/PlistBuddy -c "Print :Destinations:0:BACKUP_COMPLETED_DATE" /Library/Preferences/com.apple.TimeMachine.plist`
+    lastsnapshot=`date -j -f "%a %b %d %T %Z %Y" "$lastsnapshotdate" +%s 2>/dev/null`
   else
-    lastsnapshot=`/usr/libexec/PlistBuddy -c "Print :Destinations:0:SnapshotDates" /Library/Preferences/com.apple.TimeMachine.plist | grep ":" | tail -n1 | sed 's/^ *//g'`
-    lastsnapshot=`date -j -f "%a %b %d %T %Z %Y" "$lastsnapshot" +%s 2>/dev/null`
+    lastsnapshotdate=`/usr/libexec/PlistBuddy -c "Print :Destinations:0:SnapshotDates" /Library/Preferences/com.apple.TimeMachine.plist | grep ":" | tail -n1 | sed 's/^ *//g'`
+    lastsnapshot=`date -j -f "%a %b %d %T %Z %Y" "$lastsnapshotdate" +%s 2>/dev/null`
   fi
 fi
 
 # Get the oldest snapshot date.
 firstsnapshot=""
+firstsnapshotdate
 if [ $configured -eq 1 ]; then
   if [ "$version" = "10.6" ]; then
     firstsnapshot=0
   elif [ "$version" = "10.7" -o "$version" = "10.8" ]; then
-    firstsnapshot=`/usr/libexec/PlistBuddy -c "Print :Destinations:0:kCSBackupdOldestCompleteSnapshotDate" /Library/Preferences/com.apple.TimeMachine.plist`
-    firstsnapshot=`date -j -f "%a %b %d %T %Z %Y" "$firstsnapshot" +%s 2>/dev/null`
+    firstsnapshotdate=`/usr/libexec/PlistBuddy -c "Print :Destinations:0:kCSBackupdOldestCompleteSnapshotDate" /Library/Preferences/com.apple.TimeMachine.plist`
+    firstsnapshot=`date -j -f "%a %b %d %T %Z %Y" "$firstsnapshotdate" +%s 2>/dev/null`
   else
-    firstsnapshot=`/usr/libexec/PlistBuddy -c "Print :Destinations:0:SnapshotDates" /Library/Preferences/com.apple.TimeMachine.plist | grep ":" | head -n1 | sed 's/^ *//g'`
-    firstsnapshot=`date -j -f "%a %b %d %T %Z %Y" "$firstsnapshot" +%s 2>/dev/null`
+    firstsnapshotdate=`/usr/libexec/PlistBuddy -c "Print :Destinations:0:SnapshotDates" /Library/Preferences/com.apple.TimeMachine.plist | grep ":" | head -n1 | sed 's/^ *//g'`
+    firstsnapshot=`date -j -f "%a %b %d %T %Z %Y" "$firstsnapshotdate" +%s 2>/dev/null`
   fi
 fi
 
@@ -66,4 +68,6 @@ echo "timemachine_configured=$configured"
 echo "timemachine_url=$url"
 echo "timemachine_lastsnapshot=$lastsnapshot"
 echo "timemachine_firstsnapshot=$firstsnapshot"
+echo "timemachine_lastsnapshotdate=$lastsnapshotdate"
+echo "timemachine_firstsnapshotdate=$firstsnapshotdate"
 echo "timemachine_snapshotcount=$snapshotcount"
