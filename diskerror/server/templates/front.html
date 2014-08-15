@@ -4,7 +4,7 @@
         <tr>
             <td>
                 {% if warnings %}<a href="{% url 'machine_list_front' 'DiskError' 'warnings' %}">{% endif %}
-                Machines with errors in last 90 days
+                Machines with errors in last 28 days
                 <span class="badge badge-warning pull-right">
                     {{ warnings }}
                 </span>
@@ -13,7 +13,7 @@
         <tr>
             <td>
                 {% if errors %}<a href="{% url 'machine_list_front' 'DiskError' 'errors' %}">{% endif %}
-                Machines with errors in last 30 days
+                Machines with errors in last 7 days
                 <span class="badge badge-important pull-right">
                     {{ errors }}
                 </span>

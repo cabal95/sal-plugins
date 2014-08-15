@@ -29,17 +29,18 @@ class DiskError(IPlugin):
                 machines = Machine.objects.filter(machine_group=machine_group)
         
         if machines:
-            time_90days = datetime.now() - timedelta(days=90)
-            time_30days = datetime.now() - timedelta(days=30)
-            errors_90days = machines.filter(historicalfact__fact_name='diskerror', historicalfact__fact_data__gte=1, historicalfact__fact_recorded__gte=time_90days).distinct().count()
-            errors_30days = machines.filter(historicalfact__fact_name='diskerror', historicalfact__fact_data__gte=1, historicalfact__fact_recorded__gte=time_30days).distinct().count()
+            time_28days = datetime.now() - timedelta(days=28)
+            time_7days = datetime.now() - timedelta(days=7)
+            warnings = machines.filter(historicalfact__fact_name='diskerror', historicalfact__fact_data__gte=1, historicalfact__fact_recorded__gte=time_28days).distinct().count()
+            errors = machines.filter(historicalfact__fact_name='diskerror', historicalfact__fact_data__gte=1, historicalfact__fact_recorded__gte=time_7days).distinct().count()
         else:
+            warnings = None
             errors = None
     
         c = Context({
             'title': 'Disk Errors',
-            'warnings': errors_90days,
-            'errors': errors_30days,
+            'warnings': warnings,
+            'errors': errors,
             'page': page,
             'theid': theid
         })
@@ -47,14 +48,14 @@ class DiskError(IPlugin):
         
     def filter_machines(self, machines, data):
         if data == 'warnings':
-            time_90days = datetime.now() - timedelta(days=90)
-            machines = machines.filter(historicalfact__fact_name='diskerror', historicalfact__fact_data__gte=1, historicalfact__fact_recorded__gte=time_90days).distinct()
-            title = 'Machines with recorded disk I/O errors in the past 90 days'
+            time_28days = datetime.now() - timedelta(days=28)
+            machines = machines.filter(historicalfact__fact_name='diskerror', historicalfact__fact_data__gte=1, historicalfact__fact_recorded__gte=time_28days).distinct()
+            title = 'Machines with recorded disk I/O errors in the past 28 days'
     
         elif data == 'errors':
-            time_30days = datetime.now() - timedelta(days=30)
-            machines = machines.filter(historicalfact__fact_name='diskerror', historicalfact__fact_data__gte=1, historicalfact__fact_recorded__gte=time_30days).distinct()
-            title = 'Machines with recorded disk I/O errors in the past 30 days'
+            time_7days = datetime.now() - timedelta(days=7)
+            machines = machines.filter(historicalfact__fact_name='diskerror', historicalfact__fact_data__gte=1, historicalfact__fact_recorded__gte=time_7days).distinct()
+            title = 'Machines with recorded disk I/O errors in the past 7 days'
     
         else:
             machines = None

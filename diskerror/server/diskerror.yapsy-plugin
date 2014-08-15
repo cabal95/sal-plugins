@@ -6,4 +6,4 @@ Module = diskerror
 Author = Daniel Hazelbaker
 Version = 0.1
 Website = http://github.com/cabal95
-Description = Check for disk errors in the past 90 days
+Description = Check for disk errors in the recent past
